@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 // import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
-import api from '../api/index.js';
+import { Actions } from '@youzan/shuai';
 const DialogTitle = withStyles(theme => ({
   root: {
     borderBottom: `1px solid ${theme.palette.divider}`,
@@ -176,19 +176,12 @@ class TextFields extends React.Component {
     };
     componentDidMount() {
       this.setState(this.props.user);
-    }
+    };
     addUser = () => {
-      api.addUser(this.state).then((data) => {
-        console.log(data);
-        this.props.refresh();
-      })
-    }
+      Actions.formAddUser(this.state);
+    };
     editUser = () => {
-      api.editUser(this.state).then((data) => {
-        console.log(data);
-        this.props.refresh();
-        // console.log(this.props);
-      })
+      Actions.formEditUser(this.state);
     }
     render() {
       const { classes } = this.props;

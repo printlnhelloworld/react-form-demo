@@ -8,8 +8,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import Edit from './edit'
-import api from '../api/index.js'
+import Edit from './edit';
+import { Actions } from '@youzan/shuai';
+import { connect } from 'react-redux';
 const styles = theme => ({
   root: {
     width: '100%',
@@ -28,17 +29,11 @@ const styles = theme => ({
 });
 
 class SimpleTable extends React.Component {
-  state = {
-    rows: []
-  };
   onRef = (ref) => {
     this.modal = ref
   };
   getUsers = () => {
-    api.getUsers().then((data) => {
-      console.log(data);
-      this.setState({rows: data});
-    })
+    Actions.formGetUsers();
   };
   add = (data) => {
     this.modal.addUserDialogOpen(); 
@@ -47,11 +42,7 @@ class SimpleTable extends React.Component {
     this.modal.editUserDialogOpen(user);    
   };
   remove = (id) => {
-    console.log(id)
-    api.removeUser(id).then((data) => {
-      console.log(data);
-      this.getUsers();
-    })
+    Actions.formRemoveUser(id);
   };
   componentDidMount(){
     this.getUsers();
@@ -75,7 +66,7 @@ class SimpleTable extends React.Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {this.state.rows.map(row => (
+            {this.props.form.users.map(row => (
               <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
                   {row.name}
@@ -104,4 +95,8 @@ SimpleTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SimpleTable);
+export default connect(state => {
+  return {
+    form: state.form
+  };
+})(withStyles(styles)(SimpleTable));
