@@ -13,6 +13,13 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
 import { Actions } from '@youzan/shuai';
+interface User {
+  id: number,
+  name: string,
+  age: number,
+  job: string,
+  school: string
+}
 const DialogTitle = withStyles(theme => ({
   root: {
     borderBottom: `1px solid ${theme.palette.divider}`,
